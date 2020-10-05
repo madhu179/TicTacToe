@@ -19,7 +19,7 @@ public class TicTacToeGame {
 	public static void main(String[] args) {
 
 		board = initializeBoard();	
-		tossOutcome = Toss();
+		tossOutcome = tossForPlay();
 		if (tossOutcome) {
 			System.out.println("You won the toss play the first move");
 			userChoice = chooseLetter();
@@ -82,7 +82,7 @@ public class TicTacToeGame {
 	}
 	
 	// method to toss for first move
-	private static boolean Toss()
+	private static boolean tossForPlay()
 	{
 		System.out.println("Choose Heads or Tails to get the chance to play first");
 		String tossInput = scannerObject.nextLine();
