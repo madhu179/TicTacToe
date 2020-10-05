@@ -12,21 +12,31 @@ public class TicTacToeGame {
 
 	private static char userChoice;
 	private static char computerChoice;
-	private static final Scanner SC = new Scanner(System.in);
-	private static boolean isFree;
+	private static final Scanner scannerObject = new Scanner(System.in);
+	private static boolean isFree,tossOutcome;
 	private static int position;
 
 	public static void main(String[] args) {
 
-		board = initializeBoard();
-		userChoice = chooseLetter();
-		computerChoice = userChoice == 'X' ? 'O' : 'X';
-		Arrays.fill(board, '#');
-		showBoard();
-		isFree = checkPosition();
-		if (isFree) {
-			makeMove();
+		board = initializeBoard();	
+		tossOutcome = Toss();
+		if (tossOutcome) {
+			System.out.println("You won the toss play the first move");
+			userChoice = chooseLetter();
+			computerChoice = userChoice == 'X' ? 'O' : 'X';
+			Arrays.fill(board, '#');
 			showBoard();
+			isFree = checkPosition();
+			if (isFree) {
+				makeMove();
+				showBoard();
+			}
+
+		}
+
+		else {
+			computerChoice = 'X';
+			userChoice = 'O';
 		}
 	}
 
@@ -40,7 +50,7 @@ public class TicTacToeGame {
 	// method to choose the letter of user
 	private static char chooseLetter() {
 		System.out.println("Choose one of the inputs X or O");
-		return SC.nextLine().charAt(0);
+		return scannerObject.nextLine().charAt(0);
 	}
 
 	// method to show the board
@@ -57,7 +67,7 @@ public class TicTacToeGame {
 	// method to check position
 	private static boolean checkPosition() {
 		System.out.println("Enter the position from 1 to 9");
-		position = SC.nextInt();
+		position = scannerObject.nextInt();
 		if (position <= 9 && position >= 1) {
 			if (board[position] == '#') {
 				return true;
@@ -69,6 +79,20 @@ public class TicTacToeGame {
 	// method to make a move for user
 	private static void makeMove() {
 		board[position] = userChoice;
+	}
+	
+	// method to toss for first move
+	private static boolean Toss()
+	{
+		System.out.println("Choose Heads or Tails to get the chance to play first");
+		String tossInput = scannerObject.nextLine();
+		int randomValue = (int) Math.floor(Math.random() * 10) % 2;
+		String tossRandom = "";
+		if (randomValue == 0)
+			tossRandom = "Heads";
+		else
+			tossRandom = "Tails";
+		return tossRandom.equals(tossInput);
 	}
 
 }
