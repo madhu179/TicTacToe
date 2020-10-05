@@ -1,11 +1,20 @@
-
+import java.util.*;
 public class TicTacToeGame {
 	
 	private static char[][] board;
+	private static char userchoice;
+	private static char computerchoice;
+	private static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		
 		initializeBoard();
+		
+		userchoice = chooseLetter();
+		if(userchoice == 'X')
+			computerchoice = 'O';
+		else
+			computerchoice = 'X';
 		
 	}
 	
@@ -19,6 +28,13 @@ public class TicTacToeGame {
 	    	 board[i][j]=' ';
 	     }
 	     }
+	}
+	
+	private static char chooseLetter()
+	{
+		System.out.println("Choose one of the inputs X or O");
+		char choice = sc.nextLine().charAt(0);
+		return choice;
 	}
 
 }
