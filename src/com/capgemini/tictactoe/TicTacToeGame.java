@@ -19,6 +19,7 @@ public class TicTacToeGame {
 		board = initializeBoard();
 		userChoice = chooseLetter();
 		computerChoice = userChoice == 'X' ? 'O' : 'X';
+		showBoard();
 	}
 
 	private static char[] initializeBoard() {
@@ -30,6 +31,19 @@ public class TicTacToeGame {
 	private static char chooseLetter() {
 		System.out.println("Choose one of the inputs X or O");
 		return SC.nextLine().charAt(0);
+	}
+	
+	private static void showBoard()
+	{
+		Arrays.fill(board,'#');
+		for(int i=1;i<10;i++)
+		{
+		System.out.print(board[i-1]);
+		if(i%3==0)
+			System.out.println("");
+		else
+			System.out.print(" | ");
+		}
 	}
 
 }
