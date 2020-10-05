@@ -24,6 +24,10 @@ public class TicTacToeGame {
 		Arrays.fill(board, '#');
 		showBoard();
 		isFree = checkPosition();
+		if (isFree) {
+			makeMove();
+			showBoard();
+		}
 	}
 
 	// method to initialize the board
@@ -60,6 +64,11 @@ public class TicTacToeGame {
 			}
 		}
 		return false;
+	}
+
+	// method to make a move for user
+	private static void makeMove() {
+		board[position] = userChoice;
 	}
 
 }
