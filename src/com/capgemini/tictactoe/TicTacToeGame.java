@@ -13,25 +13,28 @@ public class TicTacToeGame {
 	private static char userChoice;
 	private static char computerChoice;
 	private static final Scanner scannerObject = new Scanner(System.in);
-	private static boolean isFree, tossOutcome;
+	private static boolean tossOutcome;
 	private static int position;
 	private static final int[][] Winning_Conditions = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 1, 4, 7 }, { 2, 5, 8 },
 			{ 3, 6, 9 }, { 1, 5, 9 }, { 3, 5, 7 } };
 
 	public static void main(String[] args) {
 
+		Random random = new Random();
 		board = initializeBoard();
+		Arrays.fill(board, '#');
 		tossOutcome = tossForPlay();
 		if (tossOutcome) {
 			System.out.println("You won the toss play the first move");
 			userChoice = chooseLetter();
 			computerChoice = userChoice == 'X' ? 'O' : 'X';
-			Arrays.fill(board, '#');
 			showBoard();
-			isFree = checkPosition();
-			if (isFree) {
-				makeMove();
+			System.out.println("Enter the position from 1 to 9");
+			position = scannerObject.nextInt();
+			if (checkPosition()) {
+				makeMove(userChoice);
 				showBoard();
+				System.out.println("");
 			}
 
 		}
@@ -41,16 +44,78 @@ public class TicTacToeGame {
 			userChoice = 'O';
 		}
 
-		if (checkIfWon() == 1)
-			if (userChoice == 'X')
-				System.out.println("User Won");
-			else
-				System.out.println("Computer Won");
-		else if (checkIfWon() == 2)
-			if (userChoice == 'O')
-				System.out.println("User Won");
-			else
-				System.out.println("Computer Won");
+		while (true) {
+			position = random.nextInt(9) + 1;
+			if (checkPosition()) {
+				makeMove(computerChoice);
+				showBoard();
+				break;
+			}
+		}
+
+		while (true) {
+			System.out.println("Enter the position from 1 to 9");
+			position = scannerObject.nextInt();
+			if (checkPosition()) {
+				makeMove(userChoice);
+				showBoard();
+				System.out.println("");
+			}
+
+			if (checkIfWon() == 1)
+				if (userChoice == 'X') {
+					System.out.println("User Won");
+					break;
+				} else {
+					System.out.println("Computer Won");
+					break;
+				}
+			else if (checkIfWon() == 2)
+				if (userChoice == 'O') {
+					System.out.println("User Won");
+					break;
+				} else {
+					System.out.println("Computer Won");
+					break;
+				}
+			if (checkIfBoardIsFull()) {
+				System.out.println("Its a draw");
+				break;
+			}
+
+			while (true) {
+				position = random.nextInt(9) + 1;
+				if (checkPosition()) {
+					makeMove(computerChoice);
+					showBoard();
+					System.out.println("");
+					break;
+				}
+			}
+
+			if (checkIfWon() == 1)
+				if (userChoice == 'X') {
+					System.out.println("User Won");
+					break;
+				} else {
+					System.out.println("Computer Won");
+					break;
+				}
+			else if (checkIfWon() == 2)
+				if (userChoice == 'O') {
+					System.out.println("User Won");
+					break;
+				} else {
+					System.out.println("Computer Won");
+					break;
+				}
+
+			if (checkIfBoardIsFull()) {
+				System.out.println("Its a draw");
+				break;
+			}
+
+		}
 
 	}
 
@@ -80,8 +145,6 @@ public class TicTacToeGame {
 
 	// method to check position
 	private static boolean checkPosition() {
-		System.out.println("Enter the position from 1 to 9");
-		position = scannerObject.nextInt();
 		if (position <= 9 && position >= 1) {
 			if (board[position] == '#') {
 				return true;
@@ -91,8 +154,8 @@ public class TicTacToeGame {
 	}
 
 	// method to make a move for user
-	private static void makeMove() {
-		board[position] = userChoice;
+	private static void makeMove(char Letter) {
+		board[position] = Letter;
 	}
 
 	// method to toss for first move
@@ -119,6 +182,15 @@ public class TicTacToeGame {
 					return 2;
 		}
 		return 0;
+	}
+
+	// method to check if board is full
+	private static boolean checkIfBoardIsFull() {
+		int count = 0;
+		for (int i = 1; i < board.length; i++)
+			if (board[i] == '#')
+				count += 1;
+		return count == 0 ? true : false;
 	}
 
 }
