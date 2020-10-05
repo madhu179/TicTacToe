@@ -13,12 +13,14 @@ public class TicTacToeGame {
 	private static char userChoice;
 	private static char computerChoice;
 	private static final Scanner scannerObject = new Scanner(System.in);
-	private static boolean isFree,tossOutcome;
+	private static boolean isFree, tossOutcome;
 	private static int position;
+	private static final int[][] Winning_Conditions = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 1, 4, 7 }, { 2, 5, 8 },
+			{ 3, 6, 9 }, { 1, 5, 9 }, { 3, 5, 7 } };
 
 	public static void main(String[] args) {
 
-		board = initializeBoard();	
+		board = initializeBoard();
 		tossOutcome = tossForPlay();
 		if (tossOutcome) {
 			System.out.println("You won the toss play the first move");
@@ -38,6 +40,18 @@ public class TicTacToeGame {
 			computerChoice = 'X';
 			userChoice = 'O';
 		}
+
+		if (checkIfWon() == 1)
+			if (userChoice == 'X')
+				System.out.println("User Won");
+			else
+				System.out.println("Computer Won");
+		else if (checkIfWon() == 2)
+			if (userChoice == 'O')
+				System.out.println("User Won");
+			else
+				System.out.println("Computer Won");
+
 	}
 
 	// method to initialize the board
@@ -80,10 +94,9 @@ public class TicTacToeGame {
 	private static void makeMove() {
 		board[position] = userChoice;
 	}
-	
+
 	// method to toss for first move
-	private static boolean tossForPlay()
-	{
+	private static boolean tossForPlay() {
 		System.out.println("Choose Heads or Tails to get the chance to play first");
 		String tossInput = scannerObject.nextLine();
 		int randomValue = (int) Math.floor(Math.random() * 10) % 2;
@@ -93,6 +106,19 @@ public class TicTacToeGame {
 		else
 			tossRandom = "Tails";
 		return tossRandom.equals(tossInput);
+	}
+
+	// method to check if won
+	private static int checkIfWon() {
+		for (int i = 0; i < Winning_Conditions.length; i++) {
+			if (board[Winning_Conditions[i][0]] == board[Winning_Conditions[i][1]]
+					&& board[Winning_Conditions[i][1]] == board[Winning_Conditions[i][2]])
+				if (board[Winning_Conditions[i][0]] == 'X')
+					return 1;
+				else if (board[Winning_Conditions[i][0]] == 'O')
+					return 2;
+		}
+		return 0;
 	}
 
 }
