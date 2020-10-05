@@ -14,6 +14,7 @@ public class TicTacToeGame {
 	private static char computerChoice;
 	private static final Scanner SC = new Scanner(System.in);
 	private static boolean isFree;
+	private static int position;
 
 	public static void main(String[] args) {
 
@@ -22,9 +23,7 @@ public class TicTacToeGame {
 		computerChoice = userChoice == 'X' ? 'O' : 'X';
 		Arrays.fill(board, '#');
 		showBoard();
-		isFree = makeMove();
-		if (isFree)
-			showBoard();
+		isFree = checkPosition();
 	}
 
 	// method to initialize the board
@@ -51,13 +50,14 @@ public class TicTacToeGame {
 		}
 	}
 
-	// method to make a move for user
-	private static boolean makeMove() {
+	// method to check position
+	private static boolean checkPosition() {
 		System.out.println("Enter the position from 1 to 9");
-		int position = SC.nextInt();
-		if (board[position] == '#') {
-			board[position] = userChoice;
-			return true;
+		position = SC.nextInt();
+		if (position <= 9 && position >= 1) {
+			if (board[position] == '#') {
+				return true;
+			}
 		}
 		return false;
 	}
