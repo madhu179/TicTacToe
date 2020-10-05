@@ -23,7 +23,8 @@ public class TicTacToeGame {
 		Arrays.fill(board, '#');
 		showBoard();
 		isFree = makeMove();
-
+		if (isFree)
+			showBoard();
 	}
 
 	// method to initialize the board
@@ -42,7 +43,7 @@ public class TicTacToeGame {
 	// method to show the board
 	private static void showBoard() {
 		for (int i = 1; i < 10; i++) {
-			System.out.print(board[i - 1]);
+			System.out.print(board[i]);
 			if (i % 3 == 0)
 				System.out.println("");
 			else
@@ -52,7 +53,7 @@ public class TicTacToeGame {
 
 	// method to make a move for user
 	private static boolean makeMove() {
-		System.out.println("Enter the position");
+		System.out.println("Enter the position from 1 to 9");
 		int position = SC.nextInt();
 		if (board[position] == '#') {
 			board[position] = userChoice;
