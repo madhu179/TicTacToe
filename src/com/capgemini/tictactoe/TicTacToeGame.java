@@ -17,8 +17,9 @@ public class TicTacToeGame {
 	private static int position;
 	private static final int[][] Winning_Conditions = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 1, 4, 7 }, { 2, 5, 8 },
 			{ 3, 6, 9 }, { 1, 5, 9 }, { 3, 5, 7 } };
+	private static final int[] CORNOR_LIST = { 1, 3, 7, 9 };
 	private static ArrayList<Integer> userPositions = new ArrayList<Integer>();
-	private static ArrayList<Integer> computerPositions = new ArrayList<Integer>(); 
+	private static ArrayList<Integer> computerPositions = new ArrayList<Integer>();
 
 	public static void main(String[] args) {
 
@@ -49,9 +50,11 @@ public class TicTacToeGame {
 
 		while (true) {
 			position = getBestPosition();
-			if(position==10||!checkPosition())
-			{
-			position = random.nextInt(9) + 1;
+			if (position == 10 || !checkPosition()) {
+				position = getCornor();
+				if (position == 10 || !checkPosition()) {
+					position = random.nextInt(9) + 1;
+				}
 			}
 			if (checkPosition()) {
 				makeMove(computerChoice);
@@ -94,9 +97,11 @@ public class TicTacToeGame {
 
 			while (true) {
 				position = getBestPosition();
-				if(position==10||!checkPosition())
-				{
-				position = random.nextInt(9) + 1;
+				if (position == 10 || !checkPosition()) {
+					position = getCornor();
+					if (position == 10 || !checkPosition()) {
+						position = random.nextInt(9) + 1;
+					}
 				}
 				if (checkPosition()) {
 					makeMove(computerChoice);
@@ -132,45 +137,46 @@ public class TicTacToeGame {
 		}
 
 	}
-	
-	//method to block the player win
-	private static int getBestPosition()
-	{
-		int count =0;
-		int i=0;
-        int value=8;
-		for(i=0;i<8;i++)
-		{
-			for(int j=0;j<userPositions.size();j++)
-			{
-				for(int k=0;k<3;k++)
-				{
-					if(Integer.valueOf(Winning_Conditions[i][k]).equals(userPositions.get(j)))
-					{
-						count+=1;
+
+	// method to return a cornor
+	private static int getCornor() {
+		for (int i = 0; i < 4; i++) {
+			position = CORNOR_LIST[i];
+			if (checkPosition()) {
+				return CORNOR_LIST[i];
+			}
+		}
+		return 10;
+	}
+
+	// method to block the player win
+	private static int getBestPosition() {
+		int count = 0;
+		int i = 0;
+		int value = 8;
+		for (i = 0; i < 8; i++) {
+			for (int j = 0; j < userPositions.size(); j++) {
+				for (int k = 0; k < 3; k++) {
+					if (Integer.valueOf(Winning_Conditions[i][k]).equals(userPositions.get(j))) {
+						count += 1;
 					}
 				}
-				
+
 			}
-			if(count==2)
-			{
-				for(int y=0;y<3;y++)
-				{
-					if(!userPositions.contains(Integer.valueOf(Winning_Conditions[i][y])))
-					{
+			if (count == 2) {
+				for (int y = 0; y < 3; y++) {
+					if (!userPositions.contains(Integer.valueOf(Winning_Conditions[i][y]))) {
 						value = Winning_Conditions[i][y];
 						position = value;
-						if(checkPosition())
-						{
-							return value;	
+						if (checkPosition()) {
+							return value;
 						}
 						break;
 					}
-				}	
-				
-			}
-			else
-				count=0;
+				}
+
+			} else
+				count = 0;
 		}
 		return 10;
 	}
