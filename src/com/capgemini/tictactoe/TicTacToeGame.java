@@ -18,6 +18,7 @@ public class TicTacToeGame {
 	private static final int[][] Winning_Conditions = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 1, 4, 7 }, { 2, 5, 8 },
 			{ 3, 6, 9 }, { 1, 5, 9 }, { 3, 5, 7 } };
 	private static final int[] CORNOR_LIST = { 1, 3, 7, 9 };
+	private static final int[] SIDES_LIST = { 2,4,6,8 };
 	private static ArrayList<Integer> userPositions = new ArrayList<Integer>();
 	private static ArrayList<Integer> computerPositions = new ArrayList<Integer>();
 
@@ -53,7 +54,13 @@ public class TicTacToeGame {
 			if (position == 10 || !checkPosition()) {
 				position = getCornor();
 				if (position == 10 || !checkPosition()) {
+					position = 5;
+					if (!checkPosition()) {
+						position = getSide();
+						if (position == 10 || !checkPosition()) {
 					position = random.nextInt(9) + 1;
+						}
+					}
 				}
 			}
 			if (checkPosition()) {
@@ -100,7 +107,13 @@ public class TicTacToeGame {
 				if (position == 10 || !checkPosition()) {
 					position = getCornor();
 					if (position == 10 || !checkPosition()) {
+						position = 5;
+						if (!checkPosition()) {
+							position = getSide();
+							if (position == 10 || !checkPosition()) {
 						position = random.nextInt(9) + 1;
+							}
+						}
 					}
 				}
 				if (checkPosition()) {
@@ -137,8 +150,19 @@ public class TicTacToeGame {
 		}
 
 	}
+	
+	// method to return a side
+		private static int getSide() {
+			for (int i = 0; i < 4; i++) {
+				position = SIDES_LIST[i];
+				if (checkPosition()) {
+					return SIDES_LIST[i];
+				}
+			}
+			return 10;
+		}
 
-	// method to return a cornor
+	// method to return a corner
 	private static int getCornor() {
 		for (int i = 0; i < 4; i++) {
 			position = CORNOR_LIST[i];
