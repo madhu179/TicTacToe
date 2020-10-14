@@ -17,6 +17,8 @@ public class TicTacToeGame {
 	private static int position;
 	private static final int[][] Winning_Conditions = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 1, 4, 7 }, { 2, 5, 8 },
 			{ 3, 6, 9 }, { 1, 5, 9 }, { 3, 5, 7 } };
+	private static ArrayList<Integer> userPositions = new ArrayList<Integer>();
+	private static ArrayList<Integer> computerPositions = new ArrayList<Integer>(); 
 
 	public static void main(String[] args) {
 
@@ -33,6 +35,7 @@ public class TicTacToeGame {
 			position = scannerObject.nextInt();
 			if (checkPosition()) {
 				makeMove(userChoice);
+				userPositions.add(position);
 				showBoard();
 				System.out.println("");
 			}
@@ -45,9 +48,15 @@ public class TicTacToeGame {
 		}
 
 		while (true) {
+			position = getBestPosition();
+			if(position==8||position==0)
+			{
 			position = random.nextInt(9) + 1;
+			}
+			System.out.println("computer position "+position);
 			if (checkPosition()) {
 				makeMove(computerChoice);
+				computerPositions.add(position);
 				showBoard();
 				break;
 			}
@@ -58,6 +67,7 @@ public class TicTacToeGame {
 			position = scannerObject.nextInt();
 			if (checkPosition()) {
 				makeMove(userChoice);
+				userPositions.add(position);
 				showBoard();
 				System.out.println("");
 			}
@@ -84,9 +94,15 @@ public class TicTacToeGame {
 			}
 
 			while (true) {
+				position = getBestPosition();
+				if(position==8||position==0)
+				{
 				position = random.nextInt(9) + 1;
+				}
+				System.out.println("computer position "+position);
 				if (checkPosition()) {
 					makeMove(computerChoice);
+					computerPositions.add(position);
 					showBoard();
 					System.out.println("");
 					break;
@@ -117,6 +133,46 @@ public class TicTacToeGame {
 
 		}
 
+	}
+	
+	//method to block the player win
+	private static int getBestPosition()
+	{
+		int count =0;
+		int i=0;
+        int value=8;
+		for(i=0;i<8;i++)
+		{
+			for(int j=0;j<userPositions.size();j++)
+			{
+				for(int k=0;k<3;k++)
+				{
+					if(Integer.valueOf(Winning_Conditions[i][k]).equals(userPositions.get(j)))
+					{
+						count+=1;
+					}
+				}
+				
+			}
+			if(count==2)
+			{
+				for(int y=0;y<3;y++)
+				{
+					if(!userPositions.contains(Integer.valueOf(Winning_Conditions[i][y])))
+					{
+						value = Winning_Conditions[i][y];
+					}
+				}
+				if(!computerPositions.contains(Integer.valueOf(value)))
+					{
+					return value;				
+					}
+				break;
+			}
+			else
+				count=0;
+		}
+		return i;
 	}
 
 	// method to initialize the board
