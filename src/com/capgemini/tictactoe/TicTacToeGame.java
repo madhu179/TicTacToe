@@ -15,7 +15,7 @@ public class TicTacToeGame {
 	private static final Scanner scannerObject = new Scanner(System.in);
 	private static boolean tossOutcome;
 	private static int position;
-	private static final int[][] Winning_Conditions = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 1, 4, 7 }, { 2, 5, 8 },
+	private static final int[][] WINNING_CONDITIONS = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 1, 4, 7 }, { 2, 5, 8 },
 			{ 3, 6, 9 }, { 1, 5, 9 }, { 3, 5, 7 } };
 	private static final int[] CORNOR_LIST = { 1, 3, 7, 9 };
 	private static final int[] SIDES_LIST = { 2,4,6,8 };
@@ -52,7 +52,7 @@ public class TicTacToeGame {
 		while (true) {
 			position = getBestPosition();
 			if (position == 10 || !checkPosition()) {
-				position = getCornor();
+				position = getCorner();
 				if (position == 10 || !checkPosition()) {
 					position = 5;
 					if (!checkPosition()) {
@@ -105,7 +105,7 @@ public class TicTacToeGame {
 			while (true) {
 				position = getBestPosition();
 				if (position == 10 || !checkPosition()) {
-					position = getCornor();
+					position = getCorner();
 					if (position == 10 || !checkPosition()) {
 						position = 5;
 						if (!checkPosition()) {
@@ -163,7 +163,7 @@ public class TicTacToeGame {
 		}
 
 	// method to return a corner
-	private static int getCornor() {
+	private static int getCorner() {
 		for (int i = 0; i < 4; i++) {
 			position = CORNOR_LIST[i];
 			if (checkPosition()) {
@@ -181,7 +181,7 @@ public class TicTacToeGame {
 		for (i = 0; i < 8; i++) {
 			for (int j = 0; j < userPositions.size(); j++) {
 				for (int k = 0; k < 3; k++) {
-					if (Integer.valueOf(Winning_Conditions[i][k]).equals(userPositions.get(j))) {
+					if (Integer.valueOf(WINNING_CONDITIONS[i][k]).equals(userPositions.get(j))) {
 						count += 1;
 					}
 				}
@@ -189,8 +189,8 @@ public class TicTacToeGame {
 			}
 			if (count == 2) {
 				for (int y = 0; y < 3; y++) {
-					if (!userPositions.contains(Integer.valueOf(Winning_Conditions[i][y]))) {
-						value = Winning_Conditions[i][y];
+					if (!userPositions.contains(Integer.valueOf(WINNING_CONDITIONS[i][y]))) {
+						value = WINNING_CONDITIONS[i][y];
 						position = value;
 						if (checkPosition()) {
 							return value;
@@ -259,12 +259,12 @@ public class TicTacToeGame {
 
 	// method to check if won
 	private static int checkIfWon() {
-		for (int i = 0; i < Winning_Conditions.length; i++) {
-			if (board[Winning_Conditions[i][0]] == board[Winning_Conditions[i][1]]
-					&& board[Winning_Conditions[i][1]] == board[Winning_Conditions[i][2]])
-				if (board[Winning_Conditions[i][0]] == 'X')
+		for (int i = 0; i < WINNING_CONDITIONS.length; i++) {
+			if (board[WINNING_CONDITIONS[i][0]] == board[WINNING_CONDITIONS[i][1]]
+					&& board[WINNING_CONDITIONS[i][1]] == board[WINNING_CONDITIONS[i][2]])
+				if (board[WINNING_CONDITIONS[i][0]] == 'X')
 					return 1;
-				else if (board[Winning_Conditions[i][0]] == 'O')
+				else if (board[WINNING_CONDITIONS[i][0]] == 'O')
 					return 2;
 		}
 		return 0;
