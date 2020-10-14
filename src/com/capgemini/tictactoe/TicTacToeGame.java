@@ -18,88 +18,36 @@ public class TicTacToeGame {
 	private static final int[][] WINNING_CONDITIONS = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 1, 4, 7 }, { 2, 5, 8 },
 			{ 3, 6, 9 }, { 1, 5, 9 }, { 3, 5, 7 } };
 	private static final int[] CORNOR_LIST = { 1, 3, 7, 9 };
-	private static final int[] SIDES_LIST = { 2,4,6,8 };
+	private static final int[] SIDES_LIST = { 2, 4, 6, 8 };
 	private static ArrayList<Integer> userPositions = new ArrayList<Integer>();
 	private static ArrayList<Integer> computerPositions = new ArrayList<Integer>();
 
 	public static void main(String[] args) {
-
-		Random random = new Random();
-		board = initializeBoard();
-		Arrays.fill(board, '#');
-		tossOutcome = tossForPlay();
-		if (tossOutcome) {
-			System.out.println("You won the toss play the first move");
-			userChoice = chooseLetter();
-			computerChoice = userChoice == 'X' ? 'O' : 'X';
-			showBoard();
-			System.out.println("Enter the position from 1 to 9");
-			position = scannerObject.nextInt();
-			if (checkPosition()) {
-				makeMove(userChoice);
-				userPositions.add(position);
+		String choice;
+		do {
+			Random random = new Random();
+			board = initializeBoard();
+			Arrays.fill(board, '#');
+			tossOutcome = tossForPlay();
+			if (tossOutcome) {
+				System.out.println("You won the toss play the first move");
+				userChoice = chooseLetter();
+				computerChoice = userChoice == 'X' ? 'O' : 'X';
 				showBoard();
-				System.out.println("");
-			}
-
-		}
-
-		else {
-			computerChoice = 'X';
-			userChoice = 'O';
-		}
-
-		while (true) {
-			position = getBestPosition();
-			if (position == 10 || !checkPosition()) {
-				position = getCorner();
-				if (position == 10 || !checkPosition()) {
-					position = 5;
-					if (!checkPosition()) {
-						position = getSide();
-						if (position == 10 || !checkPosition()) {
-					position = random.nextInt(9) + 1;
-						}
-					}
+				System.out.println("Enter the position from 1 to 9");
+				position = scannerObject.nextInt();
+				if (checkPosition()) {
+					makeMove(userChoice);
+					userPositions.add(position);
+					showBoard();
+					System.out.println("");
 				}
-			}
-			if (checkPosition()) {
-				makeMove(computerChoice);
-				computerPositions.add(position);
-				showBoard();
-				break;
-			}
-		}
 
-		while (true) {
-			System.out.println("Enter the position from 1 to 9");
-			position = scannerObject.nextInt();
-			if (checkPosition()) {
-				makeMove(userChoice);
-				userPositions.add(position);
-				showBoard();
-				System.out.println("");
 			}
 
-			if (checkIfWon() == 1)
-				if (userChoice == 'X') {
-					System.out.println("User Won");
-					break;
-				} else {
-					System.out.println("Computer Won");
-					break;
-				}
-			else if (checkIfWon() == 2)
-				if (userChoice == 'O') {
-					System.out.println("User Won");
-					break;
-				} else {
-					System.out.println("Computer Won");
-					break;
-				}
-			if (checkIfBoardIsFull()) {
-				System.out.println("Its a draw");
-				break;
+			else {
+				computerChoice = 'X';
+				userChoice = 'O';
 			}
 
 			while (true) {
@@ -111,7 +59,7 @@ public class TicTacToeGame {
 						if (!checkPosition()) {
 							position = getSide();
 							if (position == 10 || !checkPosition()) {
-						position = random.nextInt(9) + 1;
+								position = random.nextInt(9) + 1;
 							}
 						}
 					}
@@ -120,47 +68,106 @@ public class TicTacToeGame {
 					makeMove(computerChoice);
 					computerPositions.add(position);
 					showBoard();
+					break;
+				}
+			}
+
+			while (true) {
+				System.out.println("Enter the position from 1 to 9");
+				position = scannerObject.nextInt();
+				if (checkPosition()) {
+					makeMove(userChoice);
+					userPositions.add(position);
+					showBoard();
 					System.out.println("");
+				}
+
+				if (checkIfWon() == 1)
+					if (userChoice == 'X') {
+						System.out.println("User Won");
+						break;
+					} else {
+						System.out.println("Computer Won");
+						break;
+					}
+				else if (checkIfWon() == 2)
+					if (userChoice == 'O') {
+						System.out.println("User Won");
+						break;
+					} else {
+						System.out.println("Computer Won");
+						break;
+					}
+				if (checkIfBoardIsFull()) {
+					System.out.println("Its a draw");
 					break;
 				}
+
+				while (true) {
+					position = getBestPosition();
+					if (position == 10 || !checkPosition()) {
+						position = getCorner();
+						if (position == 10 || !checkPosition()) {
+							position = 5;
+							if (!checkPosition()) {
+								position = getSide();
+								if (position == 10 || !checkPosition()) {
+									position = random.nextInt(9) + 1;
+								}
+							}
+						}
+					}
+					if (checkPosition()) {
+						makeMove(computerChoice);
+						computerPositions.add(position);
+						showBoard();
+						System.out.println("");
+						break;
+					}
+				}
+
+				if (checkIfWon() == 1)
+					if (userChoice == 'X') {
+						System.out.println("User Won");
+						break;
+					} else {
+						System.out.println("Computer Won");
+						break;
+					}
+				else if (checkIfWon() == 2)
+					if (userChoice == 'O') {
+						System.out.println("User Won");
+						break;
+					} else {
+						System.out.println("Computer Won");
+						break;
+					}
+
+				if (checkIfBoardIsFull()) {
+					System.out.println("Its a draw");
+					break;
+				}
+
 			}
+			System.out.println("Do you want to play another game : Y/N");
+			scannerObject.nextLine();
+			choice = scannerObject.nextLine();
+		} while (choice.equals("Y"));
 
-			if (checkIfWon() == 1)
-				if (userChoice == 'X') {
-					System.out.println("User Won");
-					break;
-				} else {
-					System.out.println("Computer Won");
-					break;
-				}
-			else if (checkIfWon() == 2)
-				if (userChoice == 'O') {
-					System.out.println("User Won");
-					break;
-				} else {
-					System.out.println("Computer Won");
-					break;
-				}
-
-			if (checkIfBoardIsFull()) {
-				System.out.println("Its a draw");
-				break;
-			}
-
-		}
+		System.out.println("Thank You");
 
 	}
-	
+
 	// method to return a side
-		private static int getSide() {
-			for (int i = 0; i < 4; i++) {
-				position = SIDES_LIST[i];
-				if (checkPosition()) {
-					return SIDES_LIST[i];
-				}
+	private static int getSide() {
+		for (int i = 0; i < 4; i++) {
+			position = SIDES_LIST[i];
+			if (checkPosition()) {
+				return SIDES_LIST[i];
 			}
-			return 10;
 		}
+		return 10;
+	}
 
 	// method to return a corner
 	private static int getCorner() {
