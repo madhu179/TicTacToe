@@ -49,7 +49,7 @@ public class TicTacToeGame {
 
 		while (true) {
 			position = getBestPosition();
-			if(position==8||!checkPosition())
+			if(position==10||!checkPosition())
 			{
 			position = random.nextInt(9) + 1;
 			}
@@ -94,7 +94,7 @@ public class TicTacToeGame {
 
 			while (true) {
 				position = getBestPosition();
-				if(position==8||!checkPosition())
+				if(position==10||!checkPosition())
 				{
 				position = random.nextInt(9) + 1;
 				}
@@ -159,20 +159,20 @@ public class TicTacToeGame {
 					if(!userPositions.contains(Integer.valueOf(Winning_Conditions[i][y])))
 					{
 						value = Winning_Conditions[i][y];
+						position = value;
+						if(checkPosition())
+						{
+							return value;	
+						}
+						break;
 					}
-				}
+				}	
 				
-				position = value;
-				if(checkPosition())
-				{
-					return value;	
-				}
-				break;
 			}
 			else
 				count=0;
 		}
-		return i;
+		return 10;
 	}
 
 	// method to initialize the board
