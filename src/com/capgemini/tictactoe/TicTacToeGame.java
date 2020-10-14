@@ -49,11 +49,10 @@ public class TicTacToeGame {
 
 		while (true) {
 			position = getBestPosition();
-			if(position==8||position==0)
+			if(position==8||!checkPosition())
 			{
 			position = random.nextInt(9) + 1;
 			}
-			System.out.println("computer position "+position);
 			if (checkPosition()) {
 				makeMove(computerChoice);
 				computerPositions.add(position);
@@ -95,11 +94,10 @@ public class TicTacToeGame {
 
 			while (true) {
 				position = getBestPosition();
-				if(position==8||position==0)
+				if(position==8||!checkPosition())
 				{
 				position = random.nextInt(9) + 1;
 				}
-				System.out.println("computer position "+position);
 				if (checkPosition()) {
 					makeMove(computerChoice);
 					computerPositions.add(position);
@@ -163,10 +161,12 @@ public class TicTacToeGame {
 						value = Winning_Conditions[i][y];
 					}
 				}
-				if(!computerPositions.contains(Integer.valueOf(value)))
-					{
-					return value;				
-					}
+				
+				position = value;
+				if(checkPosition())
+				{
+					return value;	
+				}
 				break;
 			}
 			else
